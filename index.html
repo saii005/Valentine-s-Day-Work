@@ -2,27 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Catch My Heart 💖</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🎵 Background Music -->
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c87a7e62f.mp3" type="audio/mpeg">
-  </audio>
-
-  <button class="music-btn" onclick="toggleMusic()">🎵</button>
-
   <div class="game-container">
     <h1>Catch My Heart 💘</h1>
-    <p>Swipe or tap to catch <b>10 hearts</b> 💝</p>
-
-    <div class="characters">
-      <img src="https://i.imgur.com/OVZ1Z6y.png">
-      <img src="https://i.imgur.com/An9G4mN.png">
-    </div>
+    <p>Tap or swipe to catch <b>10 hearts</b></p>
 
     <div class="score">❤️ <span id="count">0</span> / 10</div>
 
@@ -31,14 +19,11 @@
 
   <div class="popup" id="popup">
     <div class="popup-content">
-      <h2>💖 You did it! 💖</h2>
-      <p id="nameMsg"></p>
-      <p class="love-text">Happy Valentine's Day 💕</p>
+      <h2>💖 You Did It! 💖</h2>
+      <p>Happy Valentine's Day 💕</p>
       <button onclick="restartGame()">Play Again</button>
     </div>
   </div>
-
-  <canvas id="confetti"></canvas>
 
   <script src="script.js"></script>
 </body>

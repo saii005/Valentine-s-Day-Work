@@ -1,71 +1,124 @@
 const gameArea = document.getElementById("gameArea");
-const basket = document.getElementById("basket");
-const scoreDisplay = document.getElementById("score");
+const countEl = document.getElementById("count");
+const popup = document.getElementById("popup");
+const nameMsg = document.getElementById("nameMsg");
+const bgMusic = document.getElementById("bgMusic");
 
-let score = 0;
-let basketX = window.innerWidth / 2;
+let count = 0;
+let gameInterval;
+let musicOn = false;
 
-// Move basket with mouse
-document.addEventListener("mousemove", (e) => {
-  basketX = e.clientX;
-  basket.style.left = basketX + "px";
-});
+const specialName = "My Love ❤️"; // change this
 
-// Move basket with keyboard
-document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") basketX -= 30;
-  if (e.key === "ArrowRight") basketX += 30;
-  basket.style.left = basketX + "px";
-});
+function toggleMusic() {
+  if (musicOn) {
+    bgMusic.pause();
+  } else {
+    bgMusic.play();
+  }
+  musicOn = !musicOn;
+}
 
+/* Create hearts */
 function createHeart() {
   const heart = document.createElement("div");
-  heart.classList.add("heart");
+  heart.className = "heart";
   heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 90 + "%";
 
-  heart.style.left = Math.random() * window.innerWidth + "px";
-  heart.style.top = "0px";
+  heart.addEventListener("click", () => catchHeart(heart));
 
   gameArea.appendChild(heart);
-
-  let fallInterval = setInterval(() => {
-    let heartTop = parseInt(window.getComputedStyle(heart).top);
-    heart.style.top = heartTop + 5 + "px";
-
-    let basketRect = basket.getBoundingClientRect();
-    let heartRect = heart.getBoundingClientRect();
-
-    // Collision detection
-    if (
-      heartRect.bottom >= basketRect.top &&
-      heartRect.left >= basketRect.left &&
-      heartRect.right <= basketRect.right
-    ) {
-      score++;
-      scoreDisplay.textContent = score;
-      heart.remove();
-      clearInterval(fallInterval);
-
-      if (score >= 10) {
-        winGame();
-      }
-    }
-
-    // Remove if falls off screen
-    if (heartTop > window.innerHeight) {
-      heart.remove();
-      clearInterval(fallInterval);
-    }
-
-  }, 20);
+  setTimeout(() => heart.remove(), 3000);
 }
 
+/* Catch logic */
+function catchHeart(heart) {
+  heart.remove();
+  count++;
+  countEl.textContent = count;
+
+  if (count >= 10) winGame();
+}
+
+/* Start game */
+function startGame() {
+  count = 0;
+  countEl.textContent = 0;
+  popup.style.display = "none";
+  clearInterval(gameInterval);
+  gameInterval = setInterval(createHeart, 600);
+}
+
+/* Win */
 function winGame() {
-  setTimeout(() => {
-    window.location.href = "suprise.html";
-  }, 1000);
+  clearInterval(gameInterval);
+  popup.style.display = "flex";
+  nameMsg.textContent = `For ${specialName}`;
+  startConfetti();
 }
 
+/* Restart */
+function restartGame() {
+  stopConfetti();
+  startGame();
+}
 
-// Create heart every 800ms
-setInterval(createHeart, 800);
+/* Swipe detection */
+gameArea.addEventListener("touchmove", e => {
+  const t = e.touches[0];
+  detectSwipe(t.clientX, t.clientY);
+});
+
+function detectSwipe(x, y) {
+  document.querySelectorAll(".heart").forEach(heart => {
+    const r = heart.getBoundingClientRect();
+    if (x > r.left && x < r.right && y > r.top && y < r.bottom) {
+      catchHeart(heart);
+    }
+  });
+}
+
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let confetti = [];
+let confettiInterval;
+
+function resizeCanvas() {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+function startConfetti() {
+  confetti = Array.from({ length: 150 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    r: Math.random() * 6 + 4,
+    d: Math.random() * 4 + 2
+  }));
+
+  confettiInterval = setInterval(drawConfetti, 20);
+}
+
+function drawConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.fillStyle = `hsl(${Math.random() * 360},100%,60%)`;
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    p.y += p.d;
+    if (p.y > canvas.height) p.y = -10;
+  });
+}
+
+function stopConfetti() {
+  clearInterval(confettiInterval);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+startGame();
+

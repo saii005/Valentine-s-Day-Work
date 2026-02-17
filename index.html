@@ -1,54 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Catch My Heart</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    #gameArea {
-      position: relative;
-      width: 100%;
-      height: 90vh;
-      background: #ffe6e6;
-      overflow: hidden;
-    }
-    .heart {
-      position: absolute;
-      font-size: 2rem;
-      cursor: pointer;
-      user-select: none;
-    }
-    #popup {
-      display: none;
-      position: absolute;
-      top: 40%;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      font-size: 2rem;
-      height: 100%;
-    }
-  </style>
+  <title>Catch My Heart ❤️</title>
+  <link rel="stylesheet" href="love.css">
+
+
 </head>
-
 <body>
-  <h1>Catch My Heart</h1>
-  <div id="gameArea"></div>
 
-  <p>❤️ <span id="count">0</span> / 10</p>
+  <div class="game-container">
+    <h1>Catch My Heart ❤️</h1>
+    <p>Catch 10 hearts to unlock your surprise 💕</p>
+    <div class="score">Hearts Caught: <span id="score">0</span>/10</div>
 
-  <div id="popup">
-    🎉 You Did It! Happy Valentine's Day! 🎉
-    <br><br>
-    <button onclick="restartGame()">Play Again</button>
+    <div id="gameArea">
+      <div id="basket">🧺</div>
+    </div>
   </div>
 
   <script src="love.js"></script>

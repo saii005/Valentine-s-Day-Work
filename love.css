@@ -22,7 +22,6 @@ body {
   position: absolute;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%);
   font-size: 50px;
   cursor: pointer;
 }
@@ -46,3 +45,4 @@ body {
   font-size: 20px;
   margin-top: 10px;
 }
+

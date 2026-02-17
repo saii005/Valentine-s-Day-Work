@@ -8,7 +8,7 @@ let basketX = window.innerWidth / 2;
 // Move basket with mouse
 document.addEventListener("mousemove", (e) => {
   basketX = e.clientX;
-  basket.style.left = basketX + "px";
+ basket.style.left = (basketX - basket.offsetWidth / 2) + "px";
 });
 
 // Move basket with keyboard
@@ -69,3 +69,4 @@ function winGame() {
 
 // Create heart every 800ms
 setInterval(createHeart, 800);
+

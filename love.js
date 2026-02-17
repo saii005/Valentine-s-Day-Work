@@ -5,10 +5,16 @@ const scoreDisplay = document.getElementById("score");
 let score = 0;
 let basketX = window.innerWidth / 2;
 
-// Move basket with mouse
 document.addEventListener("mousemove", (e) => {
   basketX = e.clientX;
- basket.style.left = (basketX - basket.offsetWidth / 2) + "px";
+  basket.style.left = (basketX - basket.offsetWidth / 2) + "px";
+});
+
+// Move basket with touch (Mobile Support)
+document.addEventListener("touchmove", (e) => {
+  let touch = e.touches[0];
+  basketX = touch.clientX;
+  basket.style.left = (basketX - basket.offsetWidth / 2) + "px";
 });
 
 // Move basket with keyboard
@@ -23,7 +29,7 @@ function createHeart() {
   heart.classList.add("heart");
   heart.innerHTML = "❤️";
 
-  heart.style.left = Math.random() * window.innerWidth + "px";
+ heart.style.left = Math.random() * gameArea.clientWidth + "px";
   heart.style.top = "0px";
 
   gameArea.appendChild(heart);
@@ -69,4 +75,5 @@ function winGame() {
 
 // Create heart every 800ms
 setInterval(createHeart, 800);
+
 
